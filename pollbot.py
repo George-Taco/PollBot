@@ -167,18 +167,15 @@ async def complexpoll(context, *args):
         # adds to desc, with emoji and corresponding choice/reactions
         poll_description += str(emoji + poll_reactions[i] + ", ")
 
-    # creates embed
     poll_embed = discord.Embed(title=str("📊" + poll_title), description=str("\n" + poll_description), color=0x5daac1)
 
-    # send embed and store message to use for future reference
     embed = await context.message.channel.send(embed=poll_embed)
 
     # adds emoji to message, for each emoji in reactions list
     for i in reactions:
-        # clears extra spaces
         emote = i.replace(" ", "")
         await embed.add_reaction(emote)
 
 
 # Runs the client on the server
-client.run('ODIyMzE1MjEwNjcyMzA4Mjg0.YFQeuA.ZvxN7gyM9mPSNcny8Iv9H-ngYNk')
+client.run('TOKEN')
