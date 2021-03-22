@@ -58,41 +58,27 @@ async def on_ready():
 @commands.cooldown(1, 10, BucketType.user)
 async def poll(context, *args):
 
-    # returns if no args
     if not args:
         return
 
-    # joins args into single item
     poll_input = " ".join(args)
-
-    # seperates poll_input by splits, and stores into args_list
+    
     args_list = poll_input.split("/")
-
-    # gets poll question from args_list
     poll_title = args_list[0]
-
-    # gets the poll description from args_list
     poll_description = args_list[1]
 
-    # runs if is args_list only contains 1 item(poll_question)
+    # runs if is args_list only contains 2 items(poll question+descpription; which means that poll is yes/no)
     if len(args_list) == 2:
-        # creates embed with title of poll question
         poll_embed = discord.Embed(title=str("📊  " + poll_title), description=poll_description, color=0x5daac1)
-
-        # sends and stores poll_embed
         embed = await context.message.channel.send(embed=poll_embed)
-
-        # reacts to poll with thumbs up and down reaction
         await embed.add_reaction("👍")
         await embed.add_reaction("👎")
         return()
 
-    # gets the poll choices
+    # gets the poll reaction choices
     poll_reactions = args_list[2:]
 
     poll_description += "\n\n"
-
-    # create empty reactions list
     reactions = []
 
     # tells user if there are too many options(more than 10)
@@ -100,7 +86,7 @@ async def poll(context, *args):
         await context.message.channel.send("You have too many choices!")
         return
 
-    # runs for each item in poll_reactions
+    # runs for each reaction
     for i in range(len(poll_reactions)):
 
         # sets emoji according to corresponding index of number emoji list
@@ -111,14 +97,11 @@ async def poll(context, *args):
 
         # adds to desc, with emoji and corresponding choice/reactions
         poll_description += str(emoji + poll_reactions[i] + ", ")
-
-    # creates embed
+    
     poll_embed = discord.Embed(title=str("📊" + poll_title), description=str(poll_description), color=0x5daac1)
-
-    # send embed and store message to use for future reference
     embed = await context.message.channel.send(embed=poll_embed)
 
-    # adds reaction to message, for each item in reactions list
+    # adds reactions to message
     for i in reactions:
         await embed.add_reaction(i)
 
@@ -166,16 +149,15 @@ async def complexpoll(context, *args):
 
         # adds to desc, with emoji and corresponding choice/reactions
         poll_description += str(emoji + poll_reactions[i] + ", ")
-
+    
     poll_embed = discord.Embed(title=str("📊" + poll_title), description=str("\n" + poll_description), color=0x5daac1)
-
     embed = await context.message.channel.send(embed=poll_embed)
 
-    # adds emoji to message, for each emoji in reactions list
+    # adds emoji to message
     for i in reactions:
         emote = i.replace(" ", "")
         await embed.add_reaction(emote)
 
 
-# Runs the client on the server
+# Runs the client
 client.run('TOKEN')
